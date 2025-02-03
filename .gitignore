@@ -1,0 +1,16 @@
+# Ignore the PostgreSQL data directory
+database/*
+
+# Ignore the Redmine data directory
+data/*
+
+# Ignore temporary files
+tmp/*
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+
+# Ignore Docker-related files (if any)
+docker-compose.override.yml
+.env

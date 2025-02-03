@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  redmine:
+    image: redmine:latest
+    environment:
+      REDMINE_DB_POSTGRES: redmine
+      REDMINE_DB_USERNAME: postgres_user
+      REDMINE_DB_PASSWORD: postgres_password
+      REDMINE_DB_HOST: postgres
+      REDMINE_DB_PORT: 5432
+      REDMINE_PLUGINS_MIGRATE: 1
+      REDMINE_TMP_DIR: /usr/src/redmine/tmp
+      RAILS_TMP_DIR: /usr/src/redmine/tmp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./database.yml:/usr/src/redmine/config/database.yml
+      - ./plugins:/usr/src/redmine/plugins
+      - ./tmp:/usr/src/redmine/tmp
+      - ./Gemfile/Gemfile:/usr/src/redmine/Gemfile
+    networks:
+      - redmine_network
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: redmine
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - redmine_network
+
+networks:
+  redmine_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: your_subnet_ip
