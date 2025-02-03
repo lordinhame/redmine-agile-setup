@@ -42,4 +42,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: your_subnet_ip
+        - subnet: your_subnet_ip_here
